@@ -26,11 +26,16 @@ def hello_world():
     - /learn?topic=python_concept
     '''
 
-@app.route('/chat')
+@app.route('/chat') # 这是一个装饰器，表示当用户访问 '/chat' 路径时，会执行下面的函数
 def chat():
     message = request.args.get('message', '').lower()
+     # 从 URL 参数中获取 'message' 的值
+    # 如果没有提供 message 参数，返回空字符串 ''
+    # .lower() 将消息转换为小写，以便进行统一处理
+    # 获取用户发送的消息，如果用户没有发送消息，则返回空字符串
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
+    # 获取当前时间，并格式化为字符串
+    # 格式为：年-月-日 时:分:秒
     # Process the message and generate a response
     response = process_message(message)
     
@@ -58,6 +63,8 @@ def process_message(message):
         return "I can help you learn about Python concepts! Try asking about: loops, lists, dictionaries, functions, or classes."
     elif "example" in message:
         return provide_random_example()
+    elif "bye" in message or "goodbye" in message:
+        return "Goodbye! See you next time!"
     else:
         return f"You said: {message}. Try asking about Python concepts or type 'help' for guidance!"
 
@@ -97,4 +104,4 @@ def provide_random_example():
 #http://localhost:5000/learn?topic=dictionary
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    app.run(debug=True, host='127.0.0.1', port=5001)
